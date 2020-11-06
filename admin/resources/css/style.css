@@ -1,0 +1,76 @@
+/* This is Admin Style File*/
+
+/* Global Style */
+body{
+    padding-top: 46px;
+}
+.col-sm-2 {
+    padding-left: 0px;
+}
+
+/* Navbar Style */
+.navbar,
+.navbar-brand {
+    padding: 0;
+}
+.navbar-dark .navbar-nav .nav-link  {
+    color: #fff;
+}
+.navbar-brand .dropdown-menu {
+    margin-top: -1px;
+}
+.dropdown-menu {
+    padding: 0;
+    background-color: #343A40;
+    border-radius: 0;
+}
+.dropdown-menu a {
+    color: #fff;
+}
+.dropdown-menu a:hover {
+    color: #6c757d;
+    background-color: #343A40;
+}
+.navbar-brand .dropdown-toggle::after {
+    display: none;
+}
+
+/* Sidebar Style */ 
+.sidebar {
+    padding: 10px;
+    background: #343A40;
+    position: fixed;
+    height: 100%;
+    width: 190px;
+    max-width: 190px;
+}
+.sidebar ul{
+    margin-top: 30px;
+}
+.sidebar ul li a {
+    text-decoration: none;
+    color: #fff;
+    padding: 10px;
+    display: block;
+    margin-bottom: 5px;
+    border: 1px solid #383838;
+    border-radius: 3px;
+}
+.sidebar ul li a:hover {
+    color: #fff;
+    background: #484848;
+    transition: .3s ease-in-out;
+}
+.sidebar ul li i {
+    margin-right: 10px;
+}
+
+/* post Page Style  */
+.error {
+    color: red;
+    margin-top: 5px;
+    margin-left: 10px;
+    font-size: 13px;
+    padding: 0px;
+    display: none;
+}
