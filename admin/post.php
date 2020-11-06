@@ -10,7 +10,11 @@
             $category   = filter_input(INPUT_POST, 'category', FILTER_SANITIZE_STRING);
             $excerpt    = filter_input(INPUT_POST, 'excerpt', FILTER_SANITIZE_STRING);
             $tags       = filter_input(INPUT_POST, 'tags', FILTER_SANITIZE_STRING);
+            $author     = "";  // Temporary until creating admin
             
+            date_default_timezone_set('Asia/Riyadh');
+            $datetime   = date('M-D-Y h:m', time());
+
             $image      = $_FILES['image'];
             $img_name   = $image['name'];         
             $img_type   = $image['type'];         
@@ -50,7 +54,10 @@
             if(empty($error_msg)) 
             {
                 // Insert Data In Database
-
+                if(insert_post($datetime, $title, $content, $author, $excerpt, $img_name, $category, $tags))
+                {
+                    echo "Inserted Post Data Successful";
+                }
             }
         }
     }    
