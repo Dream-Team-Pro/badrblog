@@ -58,7 +58,7 @@
                                 <td class="text-center"><?php echo $post['author']; ?></td>
                                 
                                 <td class="action-links text-center">
-                                    <a href="" class="btn btn-primary btn-sm">Edit</a>
+                                    <a href="post.php?id=<?php echo $post['id']; ?>" class="btn btn-primary btn-sm">Edit</a>
                                     <form onsubmit="return confirm('Are You Sure ?');" action="deletepost.php" method="post">
                                         <input type="hidden" name="id" value="<?php echo $post['id']; ?>">
                                         <input class="btn btn-danger btn-sm" type="submit" value="Delete" name="deletepost">
