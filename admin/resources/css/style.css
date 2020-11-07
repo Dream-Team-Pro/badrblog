@@ -2,12 +2,24 @@
 
 /* Global Style */
 body{
-    padding-top: 46px;
-}
-.col-sm-2 {
-    padding-left: 0px;
-}
+    padding-top: 40px;
 
+}
+.col-sm-2, .col-md-2 {
+    padding-left: 0px;
+    height: 100%;
+}
+.col-sm-10 {
+    padding-top: 20px !important;
+    padding-left: 90px !important;
+}
+.col-md-10 {
+    padding-top: 20px !important; 
+    padding-left: 10px !important;
+}
+.col-lg-10 {
+    padding-top: 20px !important; 
+}
 /* Navbar Style */
 .navbar,
 .navbar-brand {
@@ -41,8 +53,7 @@ body{
     background: #343A40;
     position: fixed;
     height: 100%;
-    width: 190px;
-    max-width: 190px;
+    width: 13em;
 }
 .sidebar ul{
     margin-top: 30px;
@@ -63,6 +74,15 @@ body{
 }
 .sidebar ul li i {
     margin-right: 10px;
+}
+.posts div table tbody td.action-links {
+    width: 130px;
+}
+.posts div table tbody td form {
+    display: inline;
+}
+.posts div table tbody td.title {
+    min-width: 200px;
 }
 
 /* post Page Style  */

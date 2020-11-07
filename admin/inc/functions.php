@@ -3,13 +3,14 @@
 function get_categories() 
 {
     include "connect.php";
-    $sql = "SELECT * FROM categories";
+    $sql = "SELECT * FROM categories ORDER BY name ASC";
 
     try {
         $result = $con->query($sql);
         return $result;
     } catch (Exception $e) {
         echo "Error: " . $e->getMessage();
+        return array();
     }
 }
 
@@ -18,7 +19,7 @@ function insert_post($datetime, $title, $content, $author, $excerpt, $image, $ca
 {
     $fields = array($datetime, $title, $content, $author, $excerpt, $image, $category, $tags);
     include "connect.php";
-    $sql = "INSERT INTO posts (datetime, title, content, author, excerpt, image, category, tags ) 
+    $sql = "INSERT INTO posts (datetime, title, content, author, excerpt, image, category, tags) 
             VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     
     try {
@@ -31,7 +32,20 @@ function insert_post($datetime, $title, $content, $author, $excerpt, $image, $ca
     } catch (Exception $e) {
         echo "Error: " . $e->getMessage();
     }
+}
 
+function get_posts() 
+{
+    include "connect.php";
+    $sql = "SELECT * FROM posts ORDER BY datetime DESC";
+
+    try {
+        $result = $con->query($sql);
+        return $result;
+    } catch (Exception $e) {
+        echo "Error: " . $e->getMessage();
+        return array();
+    }
 }
 
 ?>
