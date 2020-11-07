@@ -1,10 +1,11 @@
 <?php
 /* Categories Functions */
+
+
 function get_categories() 
 {
-    include "connect.php";
     $sql = "SELECT * FROM categories ORDER BY name ASC";
-
+    include "connect.php";
     try {
         $result = $con->query($sql);
         return $result;
@@ -18,10 +19,9 @@ function get_categories()
 function insert_post($datetime, $title, $content, $author, $excerpt, $image, $category, $tags)
 {
     $fields = array($datetime, $title, $content, $author, $excerpt, $image, $category, $tags);
-    include "connect.php";
     $sql = "INSERT INTO posts (datetime, title, content, author, excerpt, image, category, tags) 
             VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-    
+    include "connect.php";
     try {
         $result = $con->prepare($sql);
 
@@ -36,9 +36,8 @@ function insert_post($datetime, $title, $content, $author, $excerpt, $image, $ca
 
 function get_posts() 
 {
-    include "connect.php";
     $sql = "SELECT * FROM posts ORDER BY datetime DESC";
-
+    include "connect.php";
     try {
         $result = $con->query($sql);
         return $result;
@@ -48,4 +47,23 @@ function get_posts()
     }
 }
 
+function delete($table, $id)
+{
+    $sql = "DELETE FROM $table WHERE id = ? ";
+    include "connect.php";  
+    try {
+        $result = $con->prepare($sql);
+        $result->bindValue(1, $id, PDO::PARAM_INT);
+        return $result->execute();
+    } catch (Exception $e) {
+        echo "Error: " . $e->getMessage();
+        return false;
+    }
+}
+
+function redirect ($location)
+{
+    header("Location: $location");
+    exit;
+}
 ?>
