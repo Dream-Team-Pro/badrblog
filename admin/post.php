@@ -10,6 +10,10 @@
     $category   = "";
     $tags       = "";
 
+
+
+echo $category;
+
     if($_SERVER['REQUEST_METHOD'] === 'POST') {
         if(isset($_POST['addpost'])) {
             $title      = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_STRING);
@@ -63,13 +67,11 @@
                 } else {
                         echo "unable to insert";
                 }
-                } else {
-                        echo $error_msg;
-                } 
-            } else {
-                if(isset($_POST['updatepost'])) {
-                        
-                }
+            }   
+        } else {
+            if(isset($_POST['updatepost'])) {
+            
+            }
         }
 
     } elseif(isset($_GET['id'])) {
@@ -115,15 +117,19 @@
                         <div class="form-group">
                             <select class="form-control" name="category">
                             <?php
-                                foreach (get_categories() as $category) {
-                                    echo '<option value="$category"';
-                                    if($category_name === $category['name']) {
-                                        echo "selected >";
+                               foreach (get_categories() as $category) {
+                                    echo '<option value="$category["name"]" ';
+                                    if(isset($_GET['id'])) {
+                                        if($category_name === $category['name']) {
+                                            echo "selected >";
+                                        } else {
+                                            echo ">";
+                                        }
                                     } else {
                                         echo ">";
-                                    }
+                                    }                                
                                     echo $category['name'];
-                                    echo "</option>";
+                                    echo "</option>";  
                                 }
                             ?>
                             </select>
