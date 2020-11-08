@@ -36,12 +36,10 @@
                 $error_msg = "Content must be between 500 and 10000 caracters";
             }elseif(strlen($excerpt) < 50 || strlen($excerpt) > 500) {
                 $error_msg = "Excerpt must be between 50 and 500 caracters";
-            }elseif(strlen($tags) < 3 || strlen($tags) > 10)
-            {
+            }elseif(strlen($tags) < 3 || strlen($tags) > 10) {
                 $error_msg = "Tags must be between 3 and 10 caracters"; 
             }else {
-                if(!empty($img_name))
-                {
+                if(!empty($img_name)) {
                     $img_extenstion = strtolower(explode('.', $img_name)[1]);
                     $allowed_extensions = array('jpg', 'png', 'jpeg');
                     if(! in_array($img_extenstion, $allowed_extensions))
@@ -53,16 +51,27 @@
                     }
                 }
             } // End Error Section
+
             if(empty($error_msg)) {
                 // Insert Data In Database
-                if(insert_post($datetime, $title, $content, $author, $excerpt, $img_name, $category, $tags))
-                {      
+                if(insert_post($datetime, $title, $content, $author, $excerpt, $img_name, $category, $tags)) {      
+                    if(! empty($image_name)) {
                     $new_path = "uploads/posts/" . $img_name;
                     move_uploaded_file($img_tmp, $new_path);
+                    }
+                        echo "save success";
+                } else {
+                        echo "unable to insert";
                 }
-                echo "save success";
-            }
+                } else {
+                        echo $error_msg;
+                } 
+            } else {
+                if(isset($_POST['updatepost'])) {
+                        
+                }
         }
+
     } elseif(isset($_GET['id'])) {
         $id     = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
         $post   = get_posts($id);
@@ -72,10 +81,7 @@
         $excerpt    = $post['excerpt'];
        // $img_name   = $post['img_name'];
         $category_name   = $post['category'];
-        $tags       = $post['tags'];
-
-        
-
+        $tags       = $post['tags'];  
     }   
 ?>
     <!-- Start Sidebar Section -->
@@ -89,7 +95,11 @@
     <!-- Start post Section -->                
             <div class="col-sm-10">
                 <div class="post">
-                    <h3>Add New Post</h3>
+                    <?php if(isset($_GET['id'])) {
+                        echo "<h4>Edit Post</h4>";
+                    } else {
+                        echo "<h4>Add New Post</h4>";
+                    } ?>
                     <form action="post.php" method="POST" enctype="multipart/form-data">
                         <div class="form-group">
                             <label for="title">Title</label>
@@ -135,8 +145,12 @@
                             <?php } ?>
                                 <input type="file" class="form-control" name="image" placeholder="Image"  id="image">
                         </div>   
-                        
-                        <button type="submit" value="addpost" name="addpost" class="btn btn-primary" style="float:right;">Add Post</button>                            
+                        <?php if(isset($_GET['id'])) { ?>
+                            <input type="submit" value="Update Post" name="updatepost" class="btn btn-primary" style="float:right;">
+                        <?php } else { ?>
+                            <input type="submit" value="Add Post" name="addpost" class="btn btn-primary" style="float:right;">                 
+                        <?php } ?>                        
+                           
                     </form>
                 </div>
             </div>
