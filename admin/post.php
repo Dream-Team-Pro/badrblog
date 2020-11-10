@@ -54,12 +54,11 @@
             } // End Error Section
 
             if(empty($error_msg)) {
+                if(! session_id()){
+                    session_start();
+                }
                 // Insert Data In Database
-                if(insert_post($datetime, $title, $content, $author, $excerpt, $img_name, $category, $tags)) {      
-                    if(! session_id()){
-                        session_start();
-                    }
-                    
+                if(insert_post($datetime, $title, $content, $author, $excerpt, $img_name, $category, $tags)) {                        
                     if(! empty($image_name)) {
                     $new_path = "uploads/posts/" . $img_name;
                     move_uploaded_file($img_tmp, $new_path);

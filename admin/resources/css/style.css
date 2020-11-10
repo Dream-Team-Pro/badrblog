@@ -9,7 +9,8 @@ body{
     padding-left: 0px;
     height: 100%;
 }
-.posts .alert {
+.posts .alert,
+.categories .alert {
     margin-top: 10px;    
 }
 .col-sm-10 {

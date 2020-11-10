@@ -2,7 +2,7 @@
 
 /* Categories Functions */
 function get_categories() {
-    $sql = "SELECT * FROM categories ORDER BY name ASC";
+    $sql = "SELECT * FROM categories ORDER BY datetime DESC";
     include "connect.php";
     try {
         $result = $con->query($sql);
@@ -11,6 +11,21 @@ function get_categories() {
         echo "Error: " . $e->getMessage();
         return array();
     }
+}
+
+function insert_category($datetime, $name, $creater_name) {
+    $fields = array($datetime, $name, $creater_name);
+    $sql = "INSERT INTO categories (datetime, name, creater_name) VALUES (?, ?, ?)";    
+    include "connect.php";
+    try {
+        $result = $con->prepare($sql);
+        for ($i=1; $i <= 3; $i++) { 
+            $result->bindValue($i, $fields[$i - 1], PDO::PARAM_STR);
+        }
+        return $result->execute();
+    } catch (Exception $e) {
+        echo "Error: " . $e->getMessage();
+    }    
 }
 
 /* Posts Functions */
@@ -100,4 +115,5 @@ function redirect ($location) {
     header("Location: $location");
     exit;
 }
+
 ?>

@@ -3,6 +3,44 @@
     include "inc/navbar.php"; 
     include "inc/functions.php";
 ?>
+
+<?php
+    if($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if(isset($_POST['addcategory'])) {
+            $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
+            $creater_name = "";         
+            date_default_timezone_set('Asia/Riyadh');
+            $datetime   = date('d-m-y h:m', time());            
+            
+            $error_msg = "";
+            if(strlen($name) < 5 || strlen($name) > 50) {
+                $error_msg = "Category Name must be between 5 and 50 character";
+            }
+
+            if(empty($error_msg)) {
+                if(! session_id()){
+                    session_start();
+                }  
+                // Insert Data In Database
+                if(insert_category($datetime, $name, $creater_name)) {      
+                     $_SESSION['success'] = "Category has been Saved Successfully";
+                    redirect("categories.php");
+                }else {
+                    $_SESSION['error'] = "Unable to Add Category";
+                    redirect("categories.php");
+                }
+            }else {
+                if(! session_id()){
+                    session_start();
+                }                 
+                $_SESSION['error'] = $error_msg;
+                redirect("categories.php");
+            }
+        }
+    }
+
+?>
+
     <!-- Start Sidebar Section -->
     <div class="container-fluid">
         <div class="row">
