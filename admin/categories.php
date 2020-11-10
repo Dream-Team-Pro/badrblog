@@ -5,6 +5,7 @@
 ?>
 
 <?php
+    $name = "";
     if($_SERVER['REQUEST_METHOD'] === 'POST') {
         if(isset($_POST['addcategory'])) {
             $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
@@ -36,6 +37,38 @@
                 $_SESSION['error'] = $error_msg;
                 redirect("categories.php");
             }
+        } else {
+            if(isset($_POST['update_category'])) {
+                $id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT);
+                $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);                
+
+                if(empty($error_msg)) {
+                    if(! session_id()){
+                        session_start();
+                    }  
+                    // Update Data In Database
+                    if(update_category($name, $id)) {      
+                        $_SESSION['success'] = "Category has been Updated Successfully";
+                        redirect("categories.php");
+                    }else {
+                        $_SESSION['error'] = "Unable to Update Category";
+                        redirect("categories.php");
+                    }
+                }else {
+                    if(! session_id()){
+                        session_start();
+                    }                 
+                    $_SESSION['error'] = $error_msg;
+                    redirect("categories.php");
+                }
+            }
+        }
+    } else {
+        if(isset($_GET['id']) && ! empty($_GET['id'])) {
+            $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
+            $category = get_categories($id);
+            $name = $category['name'];
+
         }
     }
 
@@ -81,12 +114,25 @@
                         <div class="row">
                             <div class="col-sm-8">
                                 <div class="form-group">
-                                    <input type="text" name="name" class="form-control" placeholder="Category Name" autocomplete="off" required>                            
+                                    <?php if(isset($_GET['id'])) { ?>
+                                    <input type="hidden" name="id" value="<?php echo $id; ?>">
+                                    <input value="<?php echo $name; ?>" type="text" name="name" class="form-control" autocomplete="off" required>
+                                    <?php } else {  ?>
+                                            <input value="<?php echo $name; ?>" type="text" name="name" class="form-control" placeholder="Category Name" autocomplete="off" required>
+                                    <?php } ?> 
                                 </div>
                             </div>
+                            
                             <div class="col-sm">
-                        <input type="submit" value="Add Category" name="addcategory" class="btn btn-primary">
+                                <div class="form-group">
+                                    <?php if(isset($_GET['id'])) {  ?>
+                                    <input type="submit" value="Update Category" name="update_category" class="btn btn-primary">
+                                    <?php } else {  ?>
+                                        <input type="submit" value="Add Category" name="addcategory" class="btn btn-primary">
+                                    <?php } ?>
+                                </div>
                             </div>
+
                         </div>
                     </form>
                     <div class="table-responsive">
@@ -119,7 +165,7 @@
                                 </td>                                
                                 
                                 <td class="action-links text-center">
-                                    <a href="post.php?id=<?php echo $category['id']; ?>" class="btn btn-primary btn-sm">Edit</a>
+                                    <a href="categories.php?id=<?php echo $category['id']; ?>" class="btn btn-primary btn-sm">Edit</a>
                                     <form onsubmit="return confirm('Are You Sure ?');" action="deletecategory.php" method="post">
                                         <input type="hidden" name="id" value="<?php echo $category['id']; ?>">
                                         <input class="btn btn-danger btn-sm" type="submit" value="Delete" name="deletecategory">

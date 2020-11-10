@@ -1,12 +1,25 @@
 <?php
 
 /* Categories Functions */
-function get_categories() {
-    $sql = "SELECT * FROM categories ORDER BY datetime DESC";
+function get_categories($id = "") {
     include "connect.php";
+    $sql = "";
+    if(! empty($id)) {
+        $sql = "SELECT * FROM categories WHERE id = ? ";
+    } else {
+        $sql = "SELECT * FROM categories ORDER BY datetime DESC";  
+    }
+    
     try {
-        $result = $con->query($sql);
-        return $result;
+        if(! empty($id)) {
+            $result = $con->prepare($sql);
+            $result->bindValue(1, $id, PDO::PARAM_INT);
+            $result->execute();
+            return $result->fetch(PDO::FETCH_ASSOC);
+        } else {
+            $result = $con->query($sql);
+            return $result;   
+        }        
     } catch (Exception $e) {
         echo "Error: " . $e->getMessage();
         return array();
@@ -26,6 +39,21 @@ function insert_category($datetime, $name, $creater_name) {
     } catch (Exception $e) {
         echo "Error: " . $e->getMessage();
     }    
+}
+
+function update_category($name, $id) {
+    include "connect.php";  
+        $sql = "";
+        $sql = "UPDATE categories SET name = ? WHERE id = ?";
+    try {
+        $result = $con->prepare($sql);
+        $result->bindValue(1, $name, PDO::PARAM_STR);            
+        $result->bindValue(2, $id, PDO::PARAM_INT);                     
+        return $result->execute();
+    } catch (Exception $e) {
+        echo "Error: " . $e->getMessage();
+        return false;
+    }
 }
 
 /* Posts Functions */
