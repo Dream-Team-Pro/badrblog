@@ -2,6 +2,7 @@
     include "inc/header.php";
     include "inc/navbar.php"; 
     include "inc/functions.php"; 
+    $id         = "";
     $title      = "";
     $content    = "";
     $author     = "";
@@ -9,10 +10,6 @@
     $img_name   = "";
     $category   = "";
     $tags       = "";
-
-
-
-echo $category;
 
     if($_SERVER['REQUEST_METHOD'] === 'POST') {
         if(isset($_POST['addpost'])) {
@@ -69,14 +66,76 @@ echo $category;
                 }
             }   
         } else {
-            if(isset($_POST['updatepost'])) {
             
-            }
+            if(isset($_POST['updatepost'])) {
+                $id = filter_input(INPUT_POST,'id' , FILTER_SANITIZE_NUMBER_INT);
+
+                $title = filter_input(INPUT_POST,'title' , FILTER_SANITIZE_STRING);
+                $content = filter_input(INPUT_POST,'content' , FILTER_SANITIZE_STRING);
+                $category = filter_input(INPUT_POST,'category' , FILTER_SANITIZE_STRING);
+                $excerpt = filter_input(INPUT_POST,'excerpt' , FILTER_SANITIZE_STRING);
+                $tags = filter_input(INPUT_POST,'tags' , FILTER_SANITIZE_STRING);
+                $image = $_FILES['image'];
+    
+                $img_name = $image['name'];
+                $img_tmp = $image['tmp_name'];
+                $img_size = $image['size'];
+    
+    
+                $error_msg = "";
+                if(strlen($title) < 30 || strlen($title) > 200) {
+                    $error_msg = "Title must be between 30 and 200";
+                }else if(strlen($content) < 500 || strlen($content) > 10000) {
+                    $error_msg = "Content must be between 500 and 10000";
+                }else if(! empty($excerpt)){
+                    if(strlen($excerpt) < 50 || strlen($excerpt) > 500) {
+                        $error_msg = "Excerpt must be between 50 and 500";
+                    }
+                }else {
+    
+                    if(! empty($img_name)) { 
+                        $img_extension = strtolower(explode('.', $img_name)[1]); // gfdgdfg.jpg
+    
+                        $allowed_extensions = array('jpg' , 'png' , 'jpeg');
+    
+                        if(! in_array($img_extension, $allowed_extensions)) {
+                            $error_msg = "Allowed Extensions are jpg, png and jpeg ";
+                        }else if( $img_size > 1000000) {
+                            $error_msg = "Image size must be less than 1M";
+                        }
+                    }
+                }
+    
+                if(empty($error_msg)) {
+                    $updated = "";
+    
+                    if(empty($image)) {
+                        $updated = update_post($title, $content, $excerpt,$category, $tags, $id);
+                    }else {
+                        $updated = update_post($title, $content, $excerpt,$img_name, $category, $tags, $id);
+                    }
+                    if($updated) {
+    
+                        if(! session_id()){
+                            session_start();
+                        }
+                        if(! empty($img_name)) {
+                            $new_path = "uploads/posts/".$img_name;
+                            move_uploaded_file( $img_tmp, $new_path);
+                        }
+                        $_SESSION['success'] = "Post has been Updated Successfully";
+                        redirect("posts.php");
+                    }else {
+                        $_SESSION['error'] = "Unable to Update Post";
+                        redirect("posts.php");
+                    }
+                }
+                }
         }
 
     } elseif(isset($_GET['id'])) {
         $id     = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
-        $post   = get_posts($id);
+        $post       = get_posts($id);
         $title      = $post['title'];
         $content    = $post['content'];
         $author     = $post['author'];
@@ -97,13 +156,14 @@ echo $category;
     <!-- Start post Section -->                
             <div class="col-sm-10">
                 <div class="post">
-                    <?php if(isset($_GET['id'])) {
-                        echo "<h4>Edit Post</h4>";
-                    } else {
-                        echo "<h4>Add New Post</h4>";
-                    } ?>
+                    <?php if(isset($_GET['id'])) { ?>
+                        <h4>Edit Post</h4>;
+                    <?php } else {  ?>
+                        <h4>Add New Post</h4>
+                    <?php } ?>
                     <form action="post.php" method="POST" enctype="multipart/form-data">
                         <div class="form-group">
+						<input type="hidden" name="id" value="<?php echo $id; ?>">
                             <label for="title">Title</label>
                             <input type="text" value="<?php echo $title; ?>" class="form-control" name="title" placeholder="Title" required autocomplete="off" id="title" maxlength = "200">
                             <p class="error title-error">Title must be between 10 and 200 caracters</p>
@@ -118,7 +178,7 @@ echo $category;
                             <select class="form-control" name="category">
                             <?php
                                foreach (get_categories() as $category) {
-                                    echo '<option value="$category["name"]" ';
+                                    echo "<option value='{$category['name']}'";
                                     if(isset($_GET['id'])) {
                                         if($category_name === $category['name']) {
                                             echo "selected >";
