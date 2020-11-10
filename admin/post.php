@@ -60,9 +60,11 @@
                     $new_path = "uploads/posts/" . $img_name;
                     move_uploaded_file($img_tmp, $new_path);
                     }
-                        echo "save success";
-                } else {
-                        echo "unable to insert";
+                    $_SESSION['success'] = "Post has been Saved Successfully";
+                    redirect("posts.php");
+                }else {
+                    $_SESSION['error'] = "Unable to Add Post";
+                    redirect("posts.php");
                 }
             }   
         } else {
@@ -157,7 +159,7 @@
             <div class="col-sm-10">
                 <div class="post">
                     <?php if(isset($_GET['id'])) { ?>
-                        <h4>Edit Post</h4>;
+                        <h4>Edit Post</h4>
                     <?php } else {  ?>
                         <h4>Add New Post</h4>
                     <?php } ?>
