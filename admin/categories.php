@@ -120,9 +120,9 @@
                                 
                                 <td class="action-links text-center">
                                     <a href="post.php?id=<?php echo $category['id']; ?>" class="btn btn-primary btn-sm">Edit</a>
-                                    <form onsubmit="return confirm('Are You Sure ?');" action="deletepost.php" method="post">
+                                    <form onsubmit="return confirm('Are You Sure ?');" action="deletecategory.php" method="post">
                                         <input type="hidden" name="id" value="<?php echo $category['id']; ?>">
-                                        <input class="btn btn-danger btn-sm" type="submit" value="Delete" name="deletepost">
+                                        <input class="btn btn-danger btn-sm" type="submit" value="Delete" name="deletecategory">
                                     </form>
                                 </td>
                             </tr>
