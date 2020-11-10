@@ -11,6 +11,33 @@
             </div>
             <div class="col-sm-10 col-md-10 col-lg-10">
                 <div class="posts">
+
+                <?php
+                    if(! session_id()) {
+                        session_start();
+                    }
+                    if(isset($_SESSION['success']) && ! empty($_SESSION['success'])) {
+                        echo "<div class='alert alert-success alert-dismissible fade show'>";
+                        echo $_SESSION['success'];
+                        echo "<button type='button' class='close' data-dismiss='alert' aria-label='Close'>";
+                        echo "<span aria-hidden='true'>&times;</span>";
+                        echo "</button>";
+                        echo "</div>";
+                        $_SESSION['success'] = "";
+
+                    }
+                    if(isset($_SESSION['error']) && ! empty($_SESSION['error'])) {
+                        echo "<div class='alert alert-danger alert-dismissible fade show'>";
+                        echo $_SESSION['error'];
+                        echo "<button type='button' class='close' data-dismiss='alert' aria-label='Close'>";
+                        echo "<span aria-hidden='true'>&times;</span>";
+                        echo "</button>";
+                        echo "</div>";   
+                        $_SESSION['error'] = "";                 
+                    }                                                    
+                ?>
+
+
                     <h4>Posts</h4>
                     <div class="table-responsive">
                         <table class="table table-hover table-dark">
