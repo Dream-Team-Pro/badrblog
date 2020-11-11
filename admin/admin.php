@@ -2,21 +2,21 @@
     include "inc/header.php";
     include "inc/navbar.php"; 
     include "inc/functions.php"; 
-    $id         = "";
-    $username      = "";
+    $id       = "";
+    $username = "";
     $email    = "";
 
     if($_SERVER['REQUEST_METHOD'] === 'POST') {
-        if(isset($_POST['addpost'])) {
-            $title      = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_STRING);
-            $content    = filter_input(INPUT_POST, 'content', FILTER_SANITIZE_STRING);
-            $category   = filter_input(INPUT_POST, 'category', FILTER_SANITIZE_STRING);
-            $excerpt    = filter_input(INPUT_POST, 'excerpt', FILTER_SANITIZE_STRING);
-            $tags       = filter_input(INPUT_POST, 'tags', FILTER_SANITIZE_STRING);
-            $author     = "";  // Temporary until creating admin
-            
+        if(isset($_POST['addadmin'])) {
+            $username   = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
+            $email      = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_STRING);
+            $roletype   = filter_input(INPUT_POST, 'role_type', FILTER_SANITIZE_STRING);
+            $created_by = "";  // Temporary until creating admin
+
             date_default_timezone_set('Asia/Riyadh');
             $datetime   = date('d-m-y h:m', time());
+
+            $password = password_hash('11111111', PASSWORD_DEFAULT);
 
             $image      = $_FILES['image'];
             $img_name   = $image['name'];         
@@ -26,14 +26,10 @@
 
             // Start Error Section 
             $error_msg = "";
-            if(strlen($title) < 10 || strlen($title) > 200) {
-                $error_msg = "Title must be between 10 and 200 caracters";
-            }elseif(strlen($content) < 500 || strlen($content) > 10000) {
-                $error_msg = "Content must be between 500 and 10000 caracters";
-            }elseif(strlen($excerpt) < 50 || strlen($excerpt) > 500) {
-                $error_msg = "Excerpt must be between 50 and 500 caracters";
-            }elseif(strlen($tags) < 3 || strlen($tags) > 10) {
-                $error_msg = "Tags must be between 3 and 10 caracters"; 
+            if(strlen($username) < 5 || strlen($username) > 30) {
+                $error_msg = "Username must be between 5 and 30 caracters";
+            }elseif(strlen($email) < 10 || strlen($email) > 100) {
+                $error_msg = "Email must be between 10 and 100 caracters";
             }else {
                 if(!empty($img_name)) {
                     $img_extenstion = strtolower(explode('.', $img_name)[1]);
@@ -53,21 +49,21 @@
                     session_start();
                 }
                 // Insert Data In Database
-                if(insert_post($datetime, $title, $content, $author, $excerpt, $img_name, $category, $tags)) {                        
+                if(insert_admin($datetime, $username, $email, $password, $roletype, $created_by, $img_name)) {                                        
                     if(! empty($image_name)) {
-                    $new_path = "uploads/posts/" . $img_name;
+                    $new_path = "uploads/admins/" . $img_name;
                     move_uploaded_file($img_tmp, $new_path);
                     }
-                    $_SESSION['success'] = "Post has been Saved Successfully";
-                    redirect("posts.php");
+                    $_SESSION['success'] = "Admin has been Saved Successfully";
+                    redirect("admin.php");
                 }else {
-                    $_SESSION['error'] = "Unable to Add Post";
-                    redirect("posts.php");
+                    $_SESSION['error'] = "Unable to Add Admin";
+                    redirect("admin.php");
                 }
             }   
         } else {
             
-            if(isset($_POST['updatepost'])) {
+            if(isset($_POST['updateadmin'])) {
                 $id = filter_input(INPUT_POST,'id' , FILTER_SANITIZE_NUMBER_INT);
 
                 $title = filter_input(INPUT_POST,'title' , FILTER_SANITIZE_STRING);
@@ -153,36 +149,36 @@
             </div>
     <!-- End Sidebar Section -->
     
-    <!-- Start post Section -->                
+    <!-- Start admin Section -->                
             <div class="col-sm-10">
-                <div class="post">
+                <div class="admin">
                     <?php if(isset($_GET['id'])) { ?>
                         <h4>Edit Admin</h4>
                     <?php } else {  ?>
                         <h4>Add New Admin</h4>
                     <?php } ?>
-                    <form action="post.php" method="POST" enctype="multipart/form-data">
+                    <form action="admin.php" method="POST" enctype="multipart/form-data">
                         <div class="form-group">
 						<input type="hidden" name="id" value="<?php echo $id; ?>">
                             <label for="username">Username</label>
-                            <input type="text" value="<?php echo $username; ?>" class="form-control" name="username" placeholder="Username" required autocomplete="off" id="username" maxlength = "200">
+                            <input type="text" value="<?php echo $username; ?>" class="form-control" name="username" placeholder="Username" required autocomplete="off" id="username" maxlength = "30">
                             <p class="error username-error">Username must be between 5 and 30 caracters</p>
                         </div>
                         <div class="form-group">
                             <label for="email">Email</label>
-                            <input type="email" value="<?php echo $email; ?>" class="form-control" name="email" placeholder="Email" required autocomplete="off" id="email" maxlength = "200">
+                            <input type="email" value="<?php echo $email; ?>" class="form-control" name="email" placeholder="Email" required autocomplete="off" id="email" maxlength = "100">
                             <p class="error email-error">Email must be between 10 and 100 caracters</p>
                         </div>
                         <div class="form-group">
-                            <select class="form-control" name="roletype">
+                            <select class="form-control" name="role_type">
                                 <option value="admin">Admin</option>
                                 <option value="subscriber">Subscriber</option>
                             </select>
                         </div>             
                         <div class="form-group">
                             <?php if(! empty($post['image'])) { ?>
-                                <label for="Image">Post Image: </label>
-                                <img width= "100" src="uploads/posts/<?php echo $post['image']; ?>">
+                                <label for="Image">Admin Image: </label>
+                                <img width= "100" src="uploads/admins/<?php echo $post['image']; ?>">
                             <?php } ?>
                                 <input type="file" class="form-control" name="image" placeholder="Image"  id="image">
                         </div>   
@@ -195,7 +191,7 @@
                     </form>
                 </div>
             </div>
-    <!-- End post Section -->                
+    <!-- End admin Section -->                
         </div>
     </div>
 

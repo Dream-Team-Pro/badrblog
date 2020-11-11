@@ -138,6 +138,23 @@ function update_post($title, $content, $excerpt, $image = "", $category, $tags, 
     }
 }
 
+/* Admin Functions */
+function insert_admin($datetime, $username, $email, $password, $roletype, $created_by, $img_name) {
+    $fields = array($datetime, $username, $email, $password, $roletype, $created_by, $img_name);
+    include "connect.php";  
+    $sql = "INSERT INTO admins (datetime, user, email, pass, role_type, created_by, image) 
+            VALUES (?, ?, ?, ?, ?, ?, ?)";
+    try {
+        $result = $con->prepare($sql);
+        for ($i=1; $i <= 7; $i++) { 
+            $result->bindValue($i, $fields[$i - 1], PDO::PARAM_STR);
+        }
+        return $result->execute();
+    } catch (Exception $e) {
+        echo "Error: " . $e->getMessage();
+    }
+}
+
 /* Redirect Location */ 
 function redirect ($location) {
     header("Location: $location");
