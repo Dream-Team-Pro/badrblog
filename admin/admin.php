@@ -55,10 +55,10 @@
                     move_uploaded_file($img_tmp, $new_path);
                     }
                     $_SESSION['success'] = "Admin has been Saved Successfully";
-                    redirect("admin.php");
+                    redirect("admins.php");
                 }else {
                     $_SESSION['error'] = "Unable to Add Admin";
-                    redirect("admin.php");
+                    redirect("admins.php");
                 }
             }   
         } else {
@@ -66,27 +66,23 @@
             if(isset($_POST['updateadmin'])) {
                 $id = filter_input(INPUT_POST,'id' , FILTER_SANITIZE_NUMBER_INT);
 
-                $title = filter_input(INPUT_POST,'title' , FILTER_SANITIZE_STRING);
-                $content = filter_input(INPUT_POST,'content' , FILTER_SANITIZE_STRING);
-                $category = filter_input(INPUT_POST,'category' , FILTER_SANITIZE_STRING);
-                $excerpt = filter_input(INPUT_POST,'excerpt' , FILTER_SANITIZE_STRING);
-                $tags = filter_input(INPUT_POST,'tags' , FILTER_SANITIZE_STRING);
+                $username   = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
+                $email      = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_STRING);
+                $roletype   = filter_input(INPUT_POST, 'role_type', FILTER_SANITIZE_STRING);
+                $created_by = "";  // Temporary until creating admin
+
                 $image = $_FILES['image'];
     
                 $img_name = $image['name'];
                 $img_tmp = $image['tmp_name'];
                 $img_size = $image['size'];
-    
+
     
                 $error_msg = "";
-                if(strlen($title) < 30 || strlen($title) > 200) {
-                    $error_msg = "Title must be between 30 and 200";
-                }else if(strlen($content) < 500 || strlen($content) > 10000) {
-                    $error_msg = "Content must be between 500 and 10000";
-                }else if(! empty($excerpt)){
-                    if(strlen($excerpt) < 50 || strlen($excerpt) > 500) {
-                        $error_msg = "Excerpt must be between 50 and 500";
-                    }
+                if(strlen($username) < 5 || strlen($username) > 30) {
+                    $error_msg = "Username must be between 5 and 30";
+                }else if(strlen($email) < 10 || strlen($email) > 100) {
+                    $error_msg = "Email must be between 10 and 100";
                 }else {
     
                     if(! empty($img_name)) { 
@@ -105,10 +101,11 @@
                 if(empty($error_msg)) {
                     $updated = "";
     
-                    if(empty($image)) {
-                        $updated = update_post($title, $content, $excerpt,$category, $tags, $id);
+                    if(empty($image)) {                 
+                        $updated = update_admin($username, $email, $roletype, $created_by, $id);
+                    
                     }else {
-                        $updated = update_post($title, $content, $excerpt,$img_name, $category, $tags, $id);
+                        $updated = update_admin($username, $email, $roletype, $created_by, $image = "", $id);
                     }
                     if($updated) {
     
@@ -116,14 +113,14 @@
                             session_start();
                         }
                         if(! empty($img_name)) {
-                            $new_path = "uploads/posts/".$img_name;
+                            $new_path = "uploads/admins/".$img_name;
                             move_uploaded_file( $img_tmp, $new_path);
                         }
-                        $_SESSION['success'] = "Post has been Updated Successfully";
-                        redirect("posts.php");
+                        $_SESSION['success'] = "Admin has been Updated Successfully";
+                        redirect("admins.php");
                     }else {
-                        $_SESSION['error'] = "Unable to Update Post";
-                        redirect("posts.php");
+                        $_SESSION['error'] = "Unable to Update Admin";
+                        redirect("admins.php");
                     }
                 }
                 }
@@ -131,14 +128,11 @@
 
     } elseif(isset($_GET['id'])) {
         $id     = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
-        $post       = get_posts($id);
-        $title      = $post['title'];
-        $content    = $post['content'];
-        $author     = $post['author'];
-        $excerpt    = $post['excerpt'];
-       // $img_name   = $post['img_name'];
-        $category_name   = $post['category'];
-        $tags       = $post['tags'];  
+        $admin       = get_admins($id);
+        $username      = $admin['username'];
+        $email    = $admin['email'];
+        $roletype_name     = $admin['role_type'];
+       // $img_name   = $admin['img_name'];
     }   
 ?>
     <!-- Start Sidebar Section -->
@@ -169,16 +163,18 @@
                             <input type="email" value="<?php echo $email; ?>" class="form-control" name="email" placeholder="Email" required autocomplete="off" id="email" maxlength = "100">
                             <p class="error email-error">Email must be between 10 and 100 caracters</p>
                         </div>
+
                         <div class="form-group">
                             <select class="form-control" name="role_type">
-                                <option value="admin">Admin</option>
-                                <option value="subscriber">Subscriber</option>
+                                <option vaulue="admin">Admin</option>
+                                <option vaulue="subscribe">Subscribe</option>
                             </select>
-                        </div>             
+                        </div>  
+
                         <div class="form-group">
-                            <?php if(! empty($post['image'])) { ?>
+                            <?php if(! empty($admin['image'])) { ?>
                                 <label for="Image">Admin Image: </label>
-                                <img width= "100" src="uploads/admins/<?php echo $post['image']; ?>">
+                                <img width= "100" src="uploads/admins/<?php echo $admin['image']; ?>">
                             <?php } ?>
                                 <input type="file" class="form-control" name="image" placeholder="Image"  id="image">
                         </div>   
