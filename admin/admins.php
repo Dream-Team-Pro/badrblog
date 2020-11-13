@@ -38,7 +38,7 @@
                 ?>
 
 
-                    <h4>Posts</h4>
+                    <h4>Admins</h4>
                     <div class="table-responsive">
                         <table class="table table-hover table-dark">
                         <thead class="text-center">
@@ -48,6 +48,7 @@
                                 <th scope="col">Username</th>
                                 <th scope="col">Email</th>
                                 <th scope="col">Role Type</th>
+                                <th scope="col">Image</th>
                                 <th scope="col">Actions</th>
                             </tr>
                         </thead>
@@ -61,7 +62,13 @@
                                 <td class="text-center"><?php echo $admin['username']; ?></td>
                                 <td class="text-center"><?php echo $admin['email']; ?></td>
                                 <td class="text-center"><?php echo $admin['role_type']; ?></td>
-                                
+
+                                <td class="text-center">
+                                    <?php if(! empty($admin['image'])) { ?>
+                                    <img width="100" src="uploads/admins/<?php echo $admin['image'] ?>" alt="admin Banner">
+                                    <?php }else { echo "No Image"; } ?>
+                                </td>
+
                                 <td class="action-links text-center">
                                     <a href="admin.php?id=<?php echo $admin['id']; ?>" class="btn btn-primary btn-sm">Edit</a>
                                     <form onsubmit="return confirm('Are You Sure ?');" action="deleteadmin.php" method="post">

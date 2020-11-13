@@ -72,7 +72,6 @@
                 $created_by = "";  // Temporary until creating admin
 
                 $image = $_FILES['image'];
-    
                 $img_name = $image['name'];
                 $img_tmp = $image['tmp_name'];
                 $img_size = $image['size'];
@@ -105,7 +104,7 @@
                         $updated = update_admin($username, $email, $roletype, $created_by, $id);
                     
                     }else {
-                        $updated = update_admin($username, $email, $roletype, $created_by, $image = "", $id);
+                        $updated = update_admin($username, $email, $roletype, $created_by, $img_name, $id);
                     }
                     if($updated) {
     
