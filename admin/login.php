@@ -42,21 +42,9 @@
 
 <div class="login">
     <div class="login-form">
-        <h5>hello Admin</h5>
-
-        <?php
+                <?php
                     if(! session_id()) {
                         session_start();
-                    }
-                    if(isset($_SESSION['success']) && ! empty($_SESSION['success'])) {
-                        echo "<div class='alert alert-success alert-dismissible fade show'>";
-                        echo $_SESSION['success'];
-                        echo "<button type='button' class='close' data-dismiss='alert' aria-label='Close'>";
-                        echo "<span aria-hidden='true'>&times;</span>";
-                        echo "</button>";
-                        echo "</div>";
-                        $_SESSION['success'] = "";
-
                     }
                     if(isset($_SESSION['error']) && ! empty($_SESSION['error'])) {
                         echo "<div class='alert alert-danger alert-dismissible fade show'>";
@@ -68,7 +56,7 @@
                         $_SESSION['error'] = "";                 
                     }                                                    
                 ?>
-
+        <h5>hello Admin</h5>
         <form action="login.php" method="POST">
             <div class="form-group">
                 <input type="email" name="email" id="email" placeholder="Email" required autocomplete="off" class="form-control">
