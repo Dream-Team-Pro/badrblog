@@ -147,6 +147,11 @@ h5 {
     border-bottom: 1px solid grey;
     border-radius: 0;
     padding-left: 30px;
+    color: #fff;
+}
+.login .login-form input[name='email']:focus,
+.login .login-form input[name='password']:focus {
+    box-shadow: none;
 }
 .login .login-form form div {
     position: relative;

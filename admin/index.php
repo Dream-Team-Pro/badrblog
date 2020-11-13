@@ -1,4 +1,5 @@
 <?php 
+    $page_title = "Dashboard";
     include "inc/header.php";
     include "inc/navbar.php"; 
 ?>
