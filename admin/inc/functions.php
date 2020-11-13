@@ -209,7 +209,7 @@ function get_admins($id = "") {
 
 function is_admin($email) {
     include "connect.php";
-    $sql = "SELECT id, email, username, password FROM admins WHERE email = ? ";
+    $sql = "SELECT * FROM admins WHERE email = ? ";
     try {
         $result = $con->prepare($sql);
         $result->bindValue(1, $email, PDO::PARAM_STR);
@@ -220,9 +220,19 @@ function is_admin($email) {
         return false;    }
 }
 
-
-
-
+function update_reset_password_code($email) {
+    include "connect.php";  
+    $newcode = rand(10000, 99999);
+    $sql = "UPDATE admins SET reset_password_code = $newcode WHERE email = ? ";
+    try {
+        $result = $con->prepare($sql);
+        $result ->bindValue(1, $email, PDO::PARAM_STR);
+        return $result->execute();
+    } catch (Exception $e) {
+        echo "Error: " . $e->getMessage();
+        return false;
+    }
+}
 
 /* Redirect Location */ 
 function redirect ($location) {

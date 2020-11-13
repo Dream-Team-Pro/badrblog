@@ -10,7 +10,10 @@
                 <?php include "inc/sidebar.php"; ?>
             </div>
             <div class="col-sm-10">
-                Hello in Admin Dashboard
+                <?php 
+                    $newcode = rand(10000, 99999);
+                    echo $newcode;
+                ?>
             </div>
         </div>
     </div>

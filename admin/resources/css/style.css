@@ -162,6 +162,14 @@ h5 {
     top: 10px;
     left: 5px;
 }
+.btn-default {
+    color: #fff;
+    background: #FC445F;
+    border-radius: 2px;
+    box-shadow: 0 1px 2px #FC445F;    
+}
+
+
 .login .login-form form input[name='login'] {
     color: #fff;
     background: #FC445F;
@@ -174,4 +182,17 @@ h5 {
 .login .alert a:hover {
     text-decoration: none;
 }
+.modal form input[name='resetpassword'] {
+    border-radius: 2px;
+    margin-top: 10px;
+    box-shadow: 0 0px 1px #FC445F;
+}
 
+/*  Reset Password Style */
+div.reset-password-form {
+    width: 400px;
+    margin: 200px auto;
+}  
+div.reset-password-form input[name="submitcode"] {
+    margin-top: 10px;
+}
