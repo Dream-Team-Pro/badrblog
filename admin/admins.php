@@ -1,4 +1,5 @@
 <?php 
+    $page_title = "Admins Page";
     include "inc/header.php";
     include "inc/navbar.php"; 
     include "inc/functions.php";
