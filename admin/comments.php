@@ -171,7 +171,7 @@
                                 
                                 <td class="action-links text-center">
                                     <a href="comment.php?id=<?php echo $comment['id']; ?>" class="btn btn-primary btn-sm">Edit</a>
-                                    <form onsubmit="return confirm('Are You Sure ?');" action="deletecomment.php" method="post">
+                                    <form onsubmit="return confirm('Are You Sure ?');" action="approve_delete_comment.php" method="post">
                                         <input type="hidden" name="id" value="<?php echo $comment['id']; ?>">
                                         <input class="btn btn-danger btn-sm" type="submit" value="Delete" name="deletecomment">
                                         <input class="btn btn-info btn-sm" type="submit" value="Approve" name="approvecomment">
