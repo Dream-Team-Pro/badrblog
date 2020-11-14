@@ -11,8 +11,8 @@
             </div>
             <div class="col-sm-10">
                 <?php 
-                    $newcode = rand(10000, 99999);
-                    echo $newcode;
+
+
                 ?>
             </div>
         </div>

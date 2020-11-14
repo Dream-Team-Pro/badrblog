@@ -320,6 +320,18 @@ include "connect.php";
     }
 }
 
+function get_post_comments($approve, $id) {
+    include "connect.php";
+    $sql = "SELECT * FROM comments WHERE approve = $approve AND post_id = $id";
+    try {
+        $result = $con->prepare($sql);
+        $result->execute();
+        return $result->rowCount();
+    } catch (Exception $e) {
+        echo "Error: " . $e->getMessage;
+        return 0;
+    }
+}
 /* Redirect Location */ 
 function redirect ($location) {
     header("Location: $location");

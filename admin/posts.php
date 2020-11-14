@@ -49,6 +49,7 @@
                                 <th scope="col">Title</th>
                                 <th scope="col">Content</th>
                                 <th scope="col">Image</th>
+                                <th scope="col">Comments</th>
                                 <th scope="col">Author</th>
                                 <th scope="col">Actions</th>
                             </tr>
@@ -69,10 +70,10 @@
                                     }
                                     ?>
                                 </td>
-                                <td>
+                                <td class="content">
                                     <?php 
-                                    if (strlen($post['content']) > 200){
-                                        echo substr($post['content'], 0, 200) . "  [...]";
+                                    if (strlen($post['content']) > 100){
+                                        echo substr($post['content'], 0, 100) . "  [...]";
                                     }else {
                                         echo $post['content'];
                                     }
@@ -82,6 +83,14 @@
                                     <?php if(! empty($post['image'])) { ?>
                                     <img width="100" src="uploads/posts/<?php echo $post['image'] ?>" alt="Post Banner">
                                     <?php }else { echo "No Image"; } ?>
+                                </td>
+                                <td>
+                                        <?php if(get_post_comments(1,$post['id'])) {
+                                            echo "<span style='float:left;' class='badge badge-success'>". get_post_comments(1,$post['id']) ."</span>";
+                                        }  ?>
+                                        <?php if(get_post_comments(0,$post['id'])) {
+                                            echo "<span style='float:right;' class='badge badge-warning'>". get_post_comments(0,$post['id']) ."</span>";
+                                        }  ?>                                        
                                 </td>
                                 <td class="text-center"><?php echo $post['author']; ?></td>
                                 
