@@ -67,7 +67,7 @@
                     redirect("admins.php");
                 }else {
                     $_SESSION['error'] = "Unable to Add Admin";
-                    redirect("admins.php");
+                    redirect("admin.php");
                 }
             }   
         } else {

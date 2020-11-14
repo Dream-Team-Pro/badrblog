@@ -68,7 +68,7 @@
                     redirect("posts.php");
                 }else {
                     $_SESSION['error'] = "Unable to Add Post";
-                    redirect("posts.php");
+                    redirect("post.php");
                 }
             }   
         } else {

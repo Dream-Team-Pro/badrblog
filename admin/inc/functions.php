@@ -234,6 +234,62 @@ function update_reset_password_code($email) {
     }
 }
 
+/* Comments Functions */
+function get_comments($id = "") {
+    include "connect.php";
+    $sql = "";
+    if(! empty($id)) {
+        $sql = "SELECT * FROM comments WHERE id = ? ";
+    } else {
+        $sql = "SELECT * FROM comments ORDER BY datetime DESC";  
+    }
+    
+    try {
+        if(! empty($id)) {
+            $result = $con->prepare($sql);
+            $result->bindValue(1, $id, PDO::PARAM_INT);
+            $result->execute();
+            return $result->fetch(PDO::FETCH_ASSOC);
+        } else {
+            $result = $con->query($sql);
+            return $result;   
+        }        
+    } catch (Exception $e) {
+        echo "Error: " . $e->getMessage();
+        return array();
+    }
+}
+
+function insert_comment($datetime, $username, $email, $comment_comment, $post_id) {
+    $fields = array($datetime, $username, $email, $comment_comment);
+    $sql = "INSERT INTO comments (datetime, commenter_name, commenter_email, comment, post_id) VALUES (?, ?, ?, ?, ?)";
+    include "connect.php";
+    try {
+        $result = $con->prepare($sql);
+        for ($i=1; $i <= 4; $i++) { 
+            $result->bindValue($i, $fields[$i - 1], PDO::PARAM_STR);
+        }
+        $result->bindValue(5, $post_id, PDO::PARAM_INT);
+        return $result->execute();
+    } catch (Exception $e) {
+        echo "Error: " . $e->getMessage();
+    }    
+}
+
+function update_comment($comment, $post_id, $id) {
+    include "connect.php";  
+        $sql = "UPDATE comments SET comment = ?, post_id = ? WHERE id = ?";
+    try {
+        $result = $con->prepare($sql);
+        $result->bindValue(1, $comment, PDO::PARAM_STR);                 
+        $result->bindValue(2, $post_id, PDO::PARAM_INT);                 
+        $result->bindValue(3, $id, PDO::PARAM_INT);                 
+        return $result->execute();
+    } catch (Exception $e) {
+        echo "Error: " . $e->getMessage();
+        return false;    }
+}
+
 /* Redirect Location */ 
 function redirect ($location) {
     header("Location: $location");

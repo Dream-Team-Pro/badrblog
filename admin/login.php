@@ -22,8 +22,8 @@
                     $_SESSION['admin_email'] = $admin_found['email'];
 
                     update_reset_password_code($_SESSION['admin_email']);
-
-                   // redirect('index.php');
+                    
+                   redirect('index.php');
                 } else {
                     // true admin but wrong password 
                     if(! session_id()) {
