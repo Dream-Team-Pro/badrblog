@@ -1,8 +1,8 @@
 <?php 
     $page_title = "Categories Page";
     include "inc/header.php";
+    include "inc/functions.php"; 
     include "inc/navbar.php"; 
-    include "inc/functions.php";
 ?>
 
 <?php

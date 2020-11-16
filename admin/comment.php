@@ -1,8 +1,8 @@
 <?php 
     $page_title = "Comment Page";    
     include "inc/header.php";
-    include "inc/navbar.php"; 
     include "inc/functions.php"; 
+    include "inc/navbar.php"; 
     if(! session_id()){
         session_start();
     }    

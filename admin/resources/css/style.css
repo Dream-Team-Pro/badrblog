@@ -42,6 +42,20 @@ h5 {
 .navbar-brand .dropdown-menu {
     margin-top: -1px;
 }
+.navbar img.logo {
+    border-radius: 50%;
+    margin-left: 50px;
+    position: absolute;
+    width: 60px;
+    height: 60px;
+}
+.navbar .tagline {
+    font-size: 0.8em;
+    margin-left: 130px;
+    margin-top: -5px;
+    top: 0px;
+    position: absolute;
+}
 .dropdown-menu {
     padding: 0;
     background-color: #343A40;

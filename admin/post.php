@@ -1,8 +1,8 @@
 <?php 
     $page_title = "Post Page";    
     include "inc/header.php";
-    include "inc/navbar.php"; 
     include "inc/functions.php"; 
+    include "inc/navbar.php"; 
     $id         = "";
     $title      = "";
     $content    = "";

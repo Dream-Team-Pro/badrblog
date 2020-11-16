@@ -1,6 +1,7 @@
 <?php 
     $page_title = "Dashboard";
     include "inc/header.php";
+    include "inc/functions.php"; 
     include "inc/navbar.php"; 
 ?>
     <!-- Start Sidebar Section -->

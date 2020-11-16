@@ -1,6 +1,15 @@
+<?php
+foreach (get_settings() as $setting) {
+    $logo = $setting['logo']; 
+    $tagline = $setting['tagline'];
+}
+
+?>
+
+
 <!-- Start Navbar Section -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-    <div class="container">
+    <div class="container-fluid">
     <!-- Start Navbar Brand Section -->
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-brand" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -10,8 +19,9 @@
             <ul class="navbar-nav mr-auto">
             <li class="navbar-brand nav-item dropdown">
                 <a class=" nav-link dropdown-toggle" href="#" id="navbarDropdown-brand" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Navbar
+                <img class="logo" src="uploads/admins/<?php echo $logo; ?>" alt="Logo">
                 </a>
+                <span class="tagline" ><?php echo $tagline; ?></span>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown-brand">
                 <a class="dropdown-item" href="#">View Site</a>
                 </div>

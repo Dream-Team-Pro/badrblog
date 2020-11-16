@@ -386,6 +386,7 @@ function update_post_settings($home_posts_number, $posts_order, $recent_posts_nu
         return false;    
     }
 }
+
 /* Redirect Location */ 
 function redirect ($location) {
     header("Location: $location");
