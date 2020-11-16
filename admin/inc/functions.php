@@ -337,6 +337,55 @@ function get_post_comments($approve, $id = "") {
         return 0;
     }
 }
+/* Settings Page */
+function get_settings() {
+    include "connect.php";
+    $sql = "SELECT * FROM settings";
+    try {
+        $result = $con->query($sql);
+        return $result;
+    } catch (Exception $e) {
+        echo "Error: " . $e->getMessage;
+        return array();
+    }
+}
+
+function update_settings($name, $tagline, $logo = "") {
+    include "connect.php";  
+    $sql = "";
+    if(! empty($logo)) {
+        $sql = "UPDATE settings SET name = ?, tagline = ?, logo = ?";
+    } else {
+        $sql = "UPDATE settings SET name = ?, tagline = ?";
+    }
+    try {
+        $result = $con->prepare($sql);
+        $result->bindValue(1, $name, PDO::PARAM_STR);                 
+        $result->bindValue(2, $tagline, PDO::PARAM_STR);  
+        if(! empty($logo)) {                       
+        $result->bindValue(3, $logo, PDO::PARAM_STR);                 
+        }
+        return $result->execute();
+    } catch (Exception $e) {
+        echo "Error: " . $e->getMessage();
+        return false;    }
+}
+function update_post_settings($home_posts_number, $posts_order, $recent_posts_number, $related_posts_number) {
+    include "connect.php"; 
+        $sql = ""; 
+        $sql = "UPDATE settings SET home_posts_number = ?, posts_order = ?, recent_posts_number = ?, related_posts_number = ?";
+    try {
+        $result = $con->prepare($sql);
+        $result->bindValue(1, $home_posts_number, PDO::PARAM_INT);                 
+        $result->bindValue(2, $posts_order, PDO::PARAM_STR);                 
+        $result->bindValue(3, $recent_posts_number, PDO::PARAM_INT);                 
+        $result->bindValue(4, $related_posts_number, PDO::PARAM_INT);                 
+        return $result->execute();
+    } catch (Exception $e) {
+        echo "Error: " . $e->getMessage();
+        return false;    
+    }
+}
 /* Redirect Location */ 
 function redirect ($location) {
     header("Location: $location");
