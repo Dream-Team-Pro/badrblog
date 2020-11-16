@@ -3,7 +3,11 @@
     <li><a href="index.php"><i class="fa fa-home"></i>Dashboard</a></li>
     <li><a href="posts.php"><i class="fa fa-sticky-note"></i>Posts</a></li>
     <li><a href="categories.php"><i class="fa fa-list"></i>Categories</a></li>
-    <li><a href="comments.php"><i class="fa fa-comments-o"></i>Comments</a></li>
+    <li><a href="comments.php"><i class="fa fa-comments-o"></i>Comments
+        <?php if(get_post_comments(0)) {
+            echo "<span style='float:right;' class='badge badge-warning'>". get_post_comments(0) ."</span>";
+        }  ?>     
+    </a></li>
     <li><a href="admins.php"><i class="fa fa-user-secret"></i>Admins</a></li>
     <li><a href="users.php"><i class="fa fa-users"></i>Users</a></li>
     <li><a href="settings.php"><i class="fa fa-gear"></i>Settings</a></li>

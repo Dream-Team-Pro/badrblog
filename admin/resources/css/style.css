@@ -204,3 +204,21 @@ div.reset-password-form {
 div.reset-password-form input[name="submitcode"] {
     margin-top: 10px;
 }
+
+/* Settings Style */
+.settings h5 {
+    margin-bottom: 20px;
+}
+.settings .col-sm-2{
+    padding-right: 0px;
+}
+.settings .general-settings form,
+.settings .posts-settings form {
+    margin-left: 40px;
+}
+.settings .general-settings form input[type="submit"],
+.settings .posts-settings form input[type="submit"] {
+    margin-top: 10px;
+    margin-bottom: 5px;
+    border-radius: 2px;
+}

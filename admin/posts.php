@@ -4,6 +4,7 @@
     include "inc/navbar.php"; 
     include "inc/functions.php";
 ?>
+
     <!-- Start Sidebar Section -->
     <div class="container-fluid">
         <div class="row">

@@ -320,9 +320,14 @@ include "connect.php";
     }
 }
 
-function get_post_comments($approve, $id) {
+function get_post_comments($approve, $id = "") {
     include "connect.php";
-    $sql = "SELECT * FROM comments WHERE approve = $approve AND post_id = $id";
+    $sql = "";
+    if(empty($id)) {
+        $sql = "SELECT * FROM comments WHERE approve = $approve";
+    } else {
+        $sql = "SELECT * FROM comments WHERE approve = $approve AND post_id = $id";
+    }
     try {
         $result = $con->prepare($sql);
         $result->execute();
