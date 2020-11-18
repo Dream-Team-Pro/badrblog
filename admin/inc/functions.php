@@ -416,9 +416,9 @@ function get_hottest_posts($limit = "") {
         return array();
     }
 }
-function get_recent_posts($limit = "") {
+function get_recent($table, $limit = "") {
     include "connect.php";
-    $sql = "SELECT * FROM posts ORDER BY datetime DESC LIMIT $limit";
+    $sql = "SELECT * FROM $table ORDER BY datetime DESC LIMIT $limit";
     try {
         $result = $con->prepare($sql);
         $result->execute();
