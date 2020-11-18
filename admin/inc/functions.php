@@ -387,6 +387,48 @@ function update_post_settings($home_posts_number, $posts_order, $recent_posts_nu
     }
 }
 
+/* Dashboard Functions */
+function get_number($table) {
+    include "connect.php";
+        $sql = "SELECT * FROM $table";
+    try {
+            $result = $con->prepare($sql);
+            $result->execute();
+            return $result->rowCount();    
+    } catch (Exception $e) {
+        echo "Error: " . $e->getMessage();
+        return array();
+    }
+}
+function get_hottest_posts($limit = "") {
+    include "connect.php";
+    $sql = "SELECT p.id,p.title,c.postcount FROM posts AS p 
+            INNER JOIN (
+                SELECT post_id, count(*) AS postcount FROM comments GROUP BY post_id
+            )   AS c ON p.id = c.post_id 
+                ORDER BY c.postcount DESC LIMIT $limit";
+    try {
+        $result = $con->prepare($sql);
+        $result->execute();
+        return $result->fetchAll(PDO::FETCH_ASSOC);    
+    } catch (Exception $e) {
+        echo "Error: " . $e->getMessage();
+        return array();
+    }
+}
+function get_recent_posts($limit = "") {
+    include "connect.php";
+    $sql = "SELECT * FROM posts ORDER BY datetime DESC LIMIT $limit";
+    try {
+        $result = $con->prepare($sql);
+        $result->execute();
+        return $result->fetchAll(PDO::FETCH_ASSOC);    
+    } catch (Exception $e) {
+        echo "Error: " . $e->getMessage();
+        return array();
+    }
+}
+
 /* Redirect Location */ 
 function redirect ($location) {
     header("Location: $location");
