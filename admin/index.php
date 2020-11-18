@@ -34,7 +34,7 @@
                     </div>
                     <div class="row">
                        <div class="col-sm-6">
-                            <div class="card border-primary mb-6">
+                            <div class="card border-primary mb-6 hottest-posts">
                                 <div class="card-header text-danger">Hottest Posts</div>
                                 <div class="card-body text-primary">
                                     <!-- <h5 class="card-title">Primary card title</h5> -->
@@ -49,7 +49,7 @@
                             </div>  
                        </div>                      
                        <div class="col-sm-6">
-                            <div class="card border-primary mb-6">
+                            <div class="card border-primary mb-6 recent-posts">
                                 <div class="card-header text-success">Recent Posts</div>
                                 <div class="card-body text-primary">
                                     <!-- <h5 class="card-title">Primary card title</h5> -->

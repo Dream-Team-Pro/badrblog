@@ -248,3 +248,11 @@ div.reset-password-form input[name="submitcode"] {
     font-size: 2em;
     color: #fff;
 }
+.dashboard a {
+    text-decoration: none;
+}
+.dashboard .hottest-posts,
+.dashboard .recent-posts {
+    margin-left: -5px;
+    margin-right: -5px;
+}
