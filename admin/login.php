@@ -20,6 +20,7 @@
                     }
                     $_SESSION['admin_username'] = $admin_found['username'];
                     $_SESSION['admin_email'] = $admin_found['email'];
+                    $_SESSION['admin_id'] = $admin_found['id'];
 
                     update_reset_password_code($_SESSION['admin_email']);
                     

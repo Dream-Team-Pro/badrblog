@@ -429,6 +429,36 @@ function get_recent($table, $limit = "") {
     }
 }
 
+/* Profile Functions */
+function update_admin_profile($username, $email, $image_name = "", $id) {
+    include "connect.php";  
+    $fields = array($username, $email, $image_name);  
+    $sql = "";
+    if (empty($image_name)) {
+        $sql = "UPDATE admins SET username = ?, email = ? WHERE id = ?";
+    } else {
+        $sql = "UPDATE admins SET username = ?, email = ?, image = ? WHERE id = ?";
+    }
+    try {
+        $result = $con->prepare($sql);
+        for ($i=1; $i <= 3; $i++) { 
+            $result->bindValue($i, $fields[$i - 1], PDO::PARAM_STR);            
+        }
+        if(! empty($image_name)) {        
+            $result->bindValue(3, $image_name, PDO::PARAM_STR);
+            $result->bindValue(4, $id, PDO::PARAM_INT);            
+        } else {
+            $result->bindValue(3, $id, PDO::PARAM_INT);    
+        }
+        return $result->execute();
+    } catch (Exception $e) {
+        echo "Error: " . $e->getMessage();
+        return false;
+    }
+}
+
+
+
 /* Redirect Location */ 
 function redirect ($location) {
     header("Location: $location");

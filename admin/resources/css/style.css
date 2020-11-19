@@ -55,6 +55,7 @@ h5 {
     margin-top: -5px;
     top: 0px;
     position: absolute;
+    color: #E84C3D;
 }
 .dropdown-menu {
     padding: 0;
@@ -259,7 +260,23 @@ div.reset-password-form input[name="submitcode"] {
     margin-right: -5px;
     margin-bottom: 15px;;
 }
+.dashboard .links a {
+    margin-top: 10px;
+    margin-bottom: 15px;
+}
 .dashboard .links i {
     margin-right: 10px;
     color: #17A2B8;
+}
+
+/* Profile Style */
+.profile {
+    margin-top: 25px;
+}
+.profile span.role_type {
+    display: block;
+    font-weight: bold;
+}
+.profile .email {
+    color:#6C7573;
 }

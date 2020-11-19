@@ -51,13 +51,6 @@
                 }
                 // Insert Data In Database
                 if(insert_admin($datetime, $username, $email, $password, $roletype, $created_by, $img_name)) {    
-                    /**  not 
-                     * Send password to admin:   Want to eaditing some files on server
-                     * 1- php.ini: [mail function] ==> 
-                     *                                  SMTP = smtp.gmail.com
-                     *                                  smtp_port = 587
-                     *                                  sendmail_from =moh.horizon@gmail.com
-                     */
 
                     if(! empty($image_name)) {
                     $new_path = "uploads/admins/" . $img_name;
