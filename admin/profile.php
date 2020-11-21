@@ -52,7 +52,7 @@
                     var_dump($image_name);
                 }
                 if($updated) {
-
+                        // sent email to new email with new password to check if he has this email
                     if(! session_id()){
                         session_start();
                     }
@@ -61,20 +61,60 @@
                         move_uploaded_file( $image_tmp_name, $new_path);
                     }
                     $_SESSION['success'] = "Your Info has been Updated Successfully";
-                    redirect("profile.php");
-                    echo $_SESSION['admin_id'] . "\n";
-                    echo $email . "\n";
-                    echo $username . "\n";                    
+                    redirect("profile.php");                
                 }else {
-                    // $_SESSION['error'] = "Unable to Update Your Info";
-                    // redirect("profile.php");
-                    echo $_SESSION['admin_id'] . "\n";
-                    echo $email . "\n";
-                    echo $username . "\n";                    
+                    $_SESSION['error'] = "Unable to Update Your Info";
+                    redirect("profile.php");                  
                 }
             } 
-        } 
-    }
+        } else  {
+            if(isset($_POST['updatepassword'])) {
+                $id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT);           
+                $password = $_POST['password'];
+                $confirmpassword = $_POST['confirmpassword'];
+    
+                // Start Error Section 
+                $error_msg = "";
+                if(strlen($password) < 6 || strlen($password) > 20) {
+                    $error_msg = "Passwword must be between 6 and 20 characters";
+                    if(! session_id()){
+                        session_start();
+                    }
+                    $_SESSION['error'] = $error_msg;
+                    redirect("profile.php");                    
+                } else if($password !== $confirmpassword) {
+                        $error_msg = "Confirm Password Correctly"; 
+                        if(! session_id()){
+                            session_start();
+                        }
+                        $_SESSION['error'] = $error_msg;
+                        redirect("profile.php");                                            
+                } else {
+                    if(! session_id()){
+                        session_start();
+                    }
+                    if(empty($error_msg)) {
+                        $updated = "";
+                        $hashpassword = password_hash($password, PASSWORD_DEFAULT);
+                        $updated = update_admin_password($hashpassword, $_SESSION['admin_id']);
+                        if($updated) {
+                            if(! session_id()){
+                                session_start();
+                            }
+                            $_SESSION['success'] = "Your Password has been Updated Successfully";
+                            redirect("profile.php");
+                        } else {
+                            $_SESSION['error'] = "Unable to Update Your Password";
+                            redirect("profile.php");
+                        }
+                    }                     
+
+                }
+            }
+    
+
+            } 
+        }
 ?>  
 
 <!-- Start Sidebar Section -->
@@ -141,10 +181,10 @@
                             <input type="hidden" name="id" value="<?php echo $_SESSION['admin_id']; ?>">                            
                             <form action="profile.php" method="post">
                                 <div class="form-group">
-                                    <input type="text" name="password" placeholder="Password" required class="form-control" autocomplete="off">
+                                    <input type="password" name="password" placeholder="Password" required class="form-control" autocomplete="off">
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" name="confirmpassword" placeholder="Confirm Password" required class="form-control" autocomplete="off">
+                                    <input type="password" name="confirmpassword" placeholder="Confirm Password" required class="form-control" autocomplete="off">
                                 </div>
                                 <input style="float:right;" type="submit" name="updatepassword" class="btn btn-info" value="Save Password">   
                             </form>
@@ -155,4 +195,6 @@
         </div>
     </div>
 </div>
+<?php include "inc/footer.php"; ?>
+
 

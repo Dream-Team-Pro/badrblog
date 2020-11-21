@@ -456,7 +456,20 @@ function update_admin_profile($username, $email, $image_name = "", $id) {
         return false;
     }
 }
-
+function update_admin_password($password, $id) {
+    include "connect.php";  
+    $sql = "";
+    $sql = "UPDATE admins SET password = ? WHERE id = ?";
+    try {
+        $result = $con->prepare($sql);
+        $result->bindValue(1, $password, PDO::PARAM_STR);            
+        $result->bindValue(2, $id, PDO::PARAM_INT);            
+        return $result->execute();
+    } catch (Exception $e) {
+        echo "Error: " . $e->getMessage();
+        return false;
+    }
+}
 
 
 /* Redirect Location */ 
