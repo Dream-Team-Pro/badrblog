@@ -7,8 +7,13 @@ foreach (get_settings() as $setting) {
 if(! session_id()) {
     session_start();
 }
-$email = $_SESSION['admin_email'];    
-$admin = is_admin($email);
+if(! isset($_SESSION['admin_email'])) {
+    redirect("login.php");
+} else {
+    $email = $_SESSION['admin_email'];    
+    $admin = is_admin($email);
+}
+
 ?>
 
 

@@ -3,12 +3,6 @@
     include "inc/header.php";
     include "inc/functions.php"; 
     include "inc/navbar.php"; 
-
-    if(! session_id()) {
-        session_start();
-    }
-    $email = $_SESSION['admin_email'];    
-    $admin = is_admin($email);
 ?>
 
 <?php
