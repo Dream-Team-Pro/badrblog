@@ -3,6 +3,7 @@
     include "inc/header.php";
     include "inc/functions.php";
     include "inc/navbar.php"; 
+    $settings = "active";
 ?>
 
 <?php 

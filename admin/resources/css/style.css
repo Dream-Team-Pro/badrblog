@@ -3,10 +3,18 @@
 /* Global Style */
 body{
     padding-top: 40px;
-
 }
 body.login-style {
     padding: 0;
+}
+.sidebar .active {
+    background: #205e9c;
+}
+.sidebar .active:hover {
+    background: #205e9c;
+}
+.sidebar i {
+    color: #c71d1d;
 }
 .col-sm-2, .col-md-2 {
     padding-left: 0px;
@@ -82,7 +90,7 @@ h5 {
     width: 13em;
 }
 .sidebar ul{
-    margin-top: 30px;
+    margin-top: 40px;
 }
 .sidebar ul li a {
     text-decoration: none;

@@ -1,4 +1,5 @@
 <?php
+include "inc/init.php";
 foreach (get_settings() as $setting) {
     $logo = $setting['logo']; 
     $tagline = $setting['tagline'];
