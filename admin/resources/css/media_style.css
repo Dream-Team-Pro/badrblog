@@ -1,0 +1,13 @@
+/* Media Query File */ 
+
+
+/* Dashboard Style */ 
+@media (max-width: 1270px) {
+    .container-fluid .row .col-sm-2 {
+        display: none;
+    }
+    .container-fluid .row .col-sm-10 {
+        width: 100%;
+        margin: 0 auto;
+    }
+}
