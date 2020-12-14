@@ -3,9 +3,11 @@
     include "inc/header.php";
     include "inc/functions.php"; 
     include "inc/navbar.php"; 
-    $id       = "";
-    $username = "";
-    $email    = "";
+    $id        = "";
+    $username  = "";
+    $email     = "";
+    $roletype  = "";
+    $newadmincode = "";
 
     if($_SERVER['REQUEST_METHOD'] === 'POST') {
         if(isset($_POST['addadmin'])) {
@@ -13,6 +15,8 @@
             $email      = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_STRING);
             $roletype   = filter_input(INPUT_POST, 'role_type', FILTER_SANITIZE_STRING);
             $created_by = "";  // Temporary until creating admin
+
+            $newadmincode = rand(10000, 99999);
 
             date_default_timezone_set('Asia/Riyadh');
             $datetime   = date('d-m-y h:m', time());
@@ -49,16 +53,16 @@
                 if(! session_id()){
                     session_start();
                 }
+                
                 // Insert Data In Database
-                if(insert_admin($datetime, $username, $email, $password, $roletype, $created_by, $img_name)) {    
-
-                    if(! empty($image_name)) {
+                if(insert_admin($datetime, $username, $email, $password, $roletype, $created_by, $img_name, $newadmincode)) {    
+                    if(! empty($img_name)) {
                     $new_path = "uploads/admins/" . $img_name;
                     move_uploaded_file($img_tmp, $new_path);
                     }
                     $_SESSION['success'] = "Admin has been Saved Successfully";
                     redirect("admins.php");
-                }else {
+                } else {
                     $_SESSION['error'] = "Unable to Add Admin";
                     redirect("admin.php");
                 }
@@ -147,6 +151,30 @@
     <!-- Start admin Section -->                
             <div class="col-sm-10">
                 <div class="admin">
+                <?php
+                    if(! session_id()) {
+                        session_start();
+                    }
+                    if(isset($_SESSION['success']) && ! empty($_SESSION['success'])) {
+                        echo "<div class='alert alert-success alert-dismissible fade show'>";
+                        echo $_SESSION['success'];
+                        echo "<button type='button' class='close' data-dismiss='alert' aria-label='Close'>";
+                        echo "<span aria-hidden='true'>&times;</span>";
+                        echo "</button>";
+                        echo "</div>";
+                        $_SESSION['success'] = "";
+
+                    }
+                    if(isset($_SESSION['error']) && ! empty($_SESSION['error'])) {
+                        echo "<div class='alert alert-danger alert-dismissible fade show'>";
+                        echo $_SESSION['error'];
+                        echo "<button type='button' class='close' data-dismiss='alert' aria-label='Close'>";
+                        echo "<span aria-hidden='true'>&times;</span>";
+                        echo "</button>";
+                        echo "</div>";   
+                        $_SESSION['error'] = "";                 
+                    }                                                    
+                ?>                    
                     <?php if(isset($_GET['id'])) { ?>
                         <h4>Edit Admin</h4>
                     <?php } else {  ?>
