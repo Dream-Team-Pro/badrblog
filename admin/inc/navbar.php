@@ -34,7 +34,7 @@ if(! isset($_SESSION['admin_email'])) {
                 </a>
                 <span class="tagline" ><?php echo $tagline; ?></span>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown-brand">
-                <a class="dropdown-item" href="#">View Site</a>
+                <a class="dropdown-item" href="../index.php" target="_blank">View Site</a>
                 </div>
             </li>
             </ul>

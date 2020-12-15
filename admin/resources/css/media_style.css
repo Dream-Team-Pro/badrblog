@@ -1,13 +1,23 @@
 /* Media Query File */ 
 
 
+
 /* Dashboard Style */ 
 @media (max-width: 1270px) {
     .container-fluid .row .col-sm-2 {
         display: none;
     }
+    .container-fluid .row .dropdown-menu-sidebar {
+        display: block;
+        position: absolute;
+    }    
     .container-fluid .row .col-sm-10 {
         width: 100%;
         margin: 0 auto;
+        top: 100px;
+    }
+    td.action-links a {
+        width: 55px;
+        margin-bottom: 5px;    
     }
 }

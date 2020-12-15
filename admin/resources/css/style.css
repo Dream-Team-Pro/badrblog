@@ -276,7 +276,9 @@ div.reset-password-form input[name="submitcode"] {
     margin-right: 10px;
     color: #17A2B8;
 }
-
+.container-fluid .row .dropdown-menu-sidebar {
+    display: none;
+}
 /* Profile Style */
 .profile {
     margin-top: 25px;
