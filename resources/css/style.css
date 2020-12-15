@@ -1,0 +1,17 @@
+body {
+height: 3000px;
+}
+
+.navbar form {
+    display: none;
+}
+
+.header {
+    height: 350px;
+    background: linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.5)), url(../../uploads/cover.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    height: 100vh;
+}
